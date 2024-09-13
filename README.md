@@ -41,6 +41,12 @@ projenin diğer versiyonları diğer repolarda bulunmaktadır ulaşmak için:<br
 2-[Veri tabanı bulunan versiyon](https://github.com/ysfsrtl123/learnLanguageWeb) <br>
 3-[sequelize orm ile basitleştirilmiş yeni versiyon](https://github.com/ysfsrtl123/learnLanguageWeb2) <br>
 
+## IN THIS VERSION, THE SEQUELIZE ORM FRAMEWORK HAS BEEN INTEGRATED INTO THE APPLICATION.
+Other versions of the project are available in different repositories. To access them, see below:<br>
+1- [Lite version](https://github.com/ysfsrtl123/lernendeutschprojectLitee) (veri tabanı olmadan geçici şekilde kullanılan)<br>
+2-[Version with a database](https://github.com/ysfsrtl123/learnLanguageWeb) <br>
+3-[ New version simplified with Sequelize ORM](https://github.com/ysfsrtl123/learnLanguageWeb2) <br>
+
 ## Zusätzliche Fragen
 #### Warum eine Deutsch-Lernseite?
 Da ich derzeit Deutsch lerne, wollte ich ein Projekt erstellen, das mir nicht nur beim Üben hilft, sondern auch anderen zugutekommt, die die Sprache lernen.
