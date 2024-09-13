@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('*', '*', '*', {
     dialect: '*',
-    host: '*'
+    host: '**'
 });
 
 module.exports = sequelize;
