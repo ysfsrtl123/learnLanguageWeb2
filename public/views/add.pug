@@ -1,0 +1,110 @@
+doctype html
+html
+  head
+    include ../views/includes/head.pug
+    title= title
+    style.
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: red;
+      }
+      main {
+        flex: 1;
+      }
+      footer {
+        background-color: #ffc107;
+        color: white;
+      }
+      a {
+        text-decoration: none;
+      }
+      .hidden {
+        display: none;
+      }
+      .spinner-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.8);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 9999;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px black;
+      }
+      th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+      thead {
+        background-color: #f2f2f2;
+      }
+  body
+    include ../views/includes/nav.pug
+    
+    main.container.my-5
+      h1.text-center.border.border-dark Admin Yönetim Paneli
+      table.table.mt-4
+        thead
+          tr
+            th id
+            th Kelime
+            th Cevap
+            th Güncelle/Sil
+        tbody
+          if word && word.length > 0
+            each Word in word
+              tr 
+                td= Word.id 
+                td= Word.word
+                td= Word.answer
+                td
+                  form(action=`/admin/ubungen/update/${Word.id}` method="GET" style="display: inline;")
+                    input(type="hidden" name="_update" value="UPDATE")
+                    button.btn.btn-primary.mx-2(type="submit") Güncelle 
+                  form(action=`/admin/ubungen/${Word.id}` method="POST" style="display: inline;")
+                    input(type="hidden" name="_method" value="DELETE")
+                    button.btn.btn-danger(type="submit") Sil
+          else
+            tr
+              td.colspan="4" Kelime bulunamadı.
+
+      form(action="/admin/ubungen" method="POST")
+        .input-group.input-group-sm.mb-3
+          input.form-control(name="word" id="word" aria-label="Sizing input" aria-describedby="inputGroup-sizing-sm" placeholder="Kelime ekle" required)
+        .input-group.input-group-sm.mb-3
+          input.form-control(name="addAnswer" id="answer" aria-label="Sizing input" aria-describedby="inputGroup-sizing-sm" placeholder="Cevabı ekle" required)
+        .d-flex.justify-content-between
+          button.btn.btn-primary.mt-2(type="submit") Ekle 
+
+    include ../views/includes/footer.pug
+
+    
+    script.
+      document.getElementById('wordInput').addEventListener('keydown', function (e) {
+        const word = document.getElementById('word').value;
+        const answer = document.getElementById('answer').value;
+      
+      });
+    
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('success') === 'updated') {
+          alert('Öge başarı ile güncellendi!');
+        }
+        else if (urlParams.get('success') === 'deleted') {
+          alert('Öğe başarıyla silindi!');
+        }
+      });
