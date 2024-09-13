@@ -36,10 +36,10 @@ Dieses Projekt, das mein persönliches Webdesign ist, wird dynamisch entwickelt.
 .
 .
 ## BU VERSİYONDA SEQUELİZE ORM FRAMEWORK'Ü UYGULAMAYA DAHİL EDİLMİŞİTR.
-projenin diğer versiyonları diğer repolarda bulunmaktadır ulaşmak için:
-1- [Lite versiyon](https://github.com/ysfsrtl123/lernendeutschprojectLitee) (veri tabanı olmadan geçici şekilde kullanılan)
-2-[Veri tabanı bulunan versiyon](https://github.com/ysfsrtl123/learnLanguageWeb) 
-3-[sequelize orm ile basitleştirilmiş yeni versiyon](https://github.com/ysfsrtl123/learnLanguageWeb2)
+projenin diğer versiyonları diğer repolarda bulunmaktadır ulaşmak için:<br>
+1- [Lite versiyon](https://github.com/ysfsrtl123/lernendeutschprojectLitee) (veri tabanı olmadan geçici şekilde kullanılan)<br>
+2-[Veri tabanı bulunan versiyon](https://github.com/ysfsrtl123/learnLanguageWeb) <br>
+3-[sequelize orm ile basitleştirilmiş yeni versiyon](https://github.com/ysfsrtl123/learnLanguageWeb2) <br>
 
 ## Zusätzliche Fragen
 #### Warum eine Deutsch-Lernseite?
