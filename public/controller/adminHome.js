@@ -57,11 +57,11 @@ exports.postDeleteWord = async (req, res, next) => {
       console.log('wordId', wordId);
     try {
         
-        const result = await Word.destroy({ where: { id: wordId } });
+        const delWord = await Word.destroy({ where: { id: wordId } });
 
-        if (result) {
+        if (delWord) {
             
-            return res.redirect('/admin/ubungen?success=Kelime başarıyla silindi');
+            return res.redirect('/admin/ubungen?action=delete');
         } else {
            
             return res.redirect('/admin/ubungen?error=Kelime bulunamadı');
@@ -72,23 +72,51 @@ exports.postDeleteWord = async (req, res, next) => {
     }
 };
 
+exports.getUpdateWord = async (req, res, next) => {
+    const wordId = parseInt(req.params.id);;
 
-exports.getUpdateWord = (req, res, next) => {
-    const wordId = parseInt(req.params.id);
-    const navbarTitle = 'Admin Update';
+    try {
+        
+        const word = await Word.findOne({ where: { id: wordId } });
 
-        res.render('update', { title: 'Kelime Güncelle', navbarTitle, word: word });
+        if (word) {
+            res.render('update', {
+                title: 'Güncelleme Sayfası',
+                path: '/admin/ubungen/update',
+                word
+            });
+        } else {
+           
+            res.redirect('/admin/ubungen?error=Kelime bulunamadı');
+        }
+    } catch (error) {
+        console.log(error);
+        next(error); 
+    }
 };
 
 
-exports.postUpdateWord = (req, res, next) => {
-    console.log(req.body);
+exports.postUpdateWord = async (req, res, next) => {
+    const wordId = parseInt(req.params.id); 
+    const word = req.body.updateWord; 
+    const answer = req.body.updateAnswer;
+  
+    try {
+    Word.findByPk(wordId)
+    .then(Word => {
+     
+        Word.word = word;
+        Word.answer = answer;
+        return Word.save();
 
-    const wordId = req.params.id;
-    const updatedWord = {
-        word: req.body.updateWord,
-        answer: req.body.updateAnswer
-    };
+    })
+    .then(result => {
+        console.log('güncellendi');
+        res.redirect('/admin/ubungen?action=update')
+    })
+    } catch (err) {
+        console.log(err);
+    }
+}
 
-};
 

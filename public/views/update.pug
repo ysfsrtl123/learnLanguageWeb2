@@ -1,6 +1,6 @@
 doctype html
 html(lang="de")
-  block  content
+  block content
     include ../views/includes/head.pug
     style.
       body {
@@ -35,42 +35,41 @@ html(lang="de")
         z-index: 9999;
       }
 
-  body
-    #spinner-container.spinner-container
-      .spinner-border(role="status")
-        span.visually-hidden Loading...
+    body
+      #spinner-container.spinner-container
+        .spinner-border(role="status")
+          span.visually-hidden Loading...
 
-    block content
-      include ../views/includes/nav.pug
-      main.container.my-5
-       table.table
-        thead
-          tr
-            th id
-            th Kelime
-            th Cevap
-        tbody
-          each Word in word || []
-            tr 
-              td= word.id 
-              td= word.word
-              td= word.answer
+      block content
+        include ../views/includes/nav.pug
+        main.container.my-5
+          table.table
+            thead
+              tr
+                th id
+                th  güncellenecek Kelime
+                th güncellenecek Cevap
+            tbody
+              tr 
+                td= word.id
+                td= word.word
+                td= word.answer
 
-      form(action=`/admin/ubungen/update/${word.id}` method="POST")
-        .input-group.input-group-sm.mb-3
-          input.form-control(name="updateWord" value=word.word aria-label="Kelime" placeholder="Güncellemek için kelime")
-        .input-group.input-group-sm.mb-3
-          input.form-control(name="updateAnswer" value=word.answer aria-label="Cevap" placeholder="Güncellemek için cevap")
-        .d-flex.justify-content-between
-          button.btn.btn-primary.mt-2(type="submit") Güncelle
+          form(action=`/admin/ubungen/update/${word.id}` method="POST")
+            .input-group.input-group-sm.mb-3
+              input.form-control(name="updateWord" value=word.word aria-label="Kelime" placeholder="Güncellemek için kelime")
+            .input-group.input-group-sm.mb-3
+              input.form-control(name="updateAnswer" value=word.answer aria-label="Cevap" placeholder="Güncellemek için cevap")
+            .d-flex.justify-content-between
+              button.btn.btn-primary.mt-2(type="submit") Güncelle
 
-      include ../views/includes/footer.pug
+        include ../views/includes/footer.pug
 
-    script.
-      document.addEventListener('DOMContentLoaded', function() {
-          document.getElementById('spinner-container').style.display = 'none';
-      });
+      script.
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('spinner-container').style.display = 'none';
+        });
 
-      function showSection(sectionId) {
-        document.getElementById(sectionId).classList.remove('hidden');
-      }
+        function showSection(sectionId) {
+          document.getElementById(sectionId).classList.remove('hidden');
+        }
