@@ -3,15 +3,15 @@ section
     .col-md-8
       h1.text-center.mb-4 
 
-       if currentWord.message
-        p.text-center #{currentWord.message}
-        form(action="/reset", method="POST")
+      if message
+        h1.mb-3.text-center #{message}
+        form(action="/reset", method="POST").text-center
           a(href="/").btn.btn-primary.mx-3 Anasayfa
           button.btn.btn-secondary(type="submit") Tekrar Başla
-       else
-        p.text-center Kelime: #{currentWord.word}
+      else
+        h1.text-center.mb-3 Kelime: #{word.word}
 
-       if !currentWord.message
+      if !message
         form(action="/ubungen", method="POST")
           .input-group.input-group-sm.mb-3
             input.form-control(name="answer", aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" placeholder="Cevap")

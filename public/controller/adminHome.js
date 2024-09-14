@@ -1,10 +1,9 @@
-const { Word } = require('../model/word.js');
+const  Word  = require('../model/word.js');
 const Category = require('../model/category.js');
-const Sequelize = require('sequelize')
-const sequelize = require('../utility/database');
+
 exports.getAdminHome = (req, res, next) => {
     const navbarTitle = 'Admin Login';
-    //const Categories = Category.getAllCategories();
+   // const Categories = Category.getAllCategories();
     res.render('index', {
         navbarTitle,
         title: 'Admin Login',
@@ -24,60 +23,61 @@ exports.getAdminAbout = (req, res, next) => {
 };
 
 exports.getAdminUbungen = (req, res, next) => {
-    exports.getAdminUbungen = (req, res, next) => {
-        const navbarTitle = 'Admin Übungen';
-        Word.findAll().then(words => {
+    Word.findAll()
+        .then(words => {
             res.render('add', {
-                navbarTitle,
-                word: words,
+                navbarTitle: 'Admin Übungen',
+                word: words, 
                 title: 'Admin Übungen',
                 path: '/admin/ubungen',
                 isAdmin: true
             });
-        }).catch(err => {
+        })
+        .catch(err => {
             console.log(err);
         });
-    };
-    
-    
 };
 
-    
-
-
-exports.postaddword = (req, res, next) => {
+exports.postaddword = async (req, res, next) => {
     const word = req.body.word;
     const answer = req.body.addAnswer;
-
-    Word.create({
+   await Word.create({
         word: word,
         answer: answer
-    })
-    .then(result => {
+    }).then(result => {
         console.log(result);
         res.redirect('/admin/ubungen');
-    })
-    .catch(err => {
+    }).catch(err => {
         console.log(err);
     });
 };
 
+exports.postDeleteWord = async (req, res, next) => {
+    const wordId = req.params.id; 
+      console.log('wordId', wordId);
+    try {
+        
+        const result = await Word.destroy({ where: { id: wordId } });
 
-exports.postDeleteWord = (req,res,next) => {
-    const wordId = parseInt(req.params.id); 
-
-   
+        if (result) {
+            
+            return res.redirect('/admin/ubungen?success=Kelime başarıyla silindi');
+        } else {
+           
+            return res.redirect('/admin/ubungen?error=Kelime bulunamadı');
+        }
+    } catch (error) {
+        console.log(error);
+        next(error); 
+    }
 };
+
 
 exports.getUpdateWord = (req, res, next) => {
     const wordId = parseInt(req.params.id);
     const navbarTitle = 'Admin Update';
 
-    
-    Word.getWordById(wordId).then(([rows]) => {
-        const word = rows[0]; 
-
-    });
+        res.render('update', { title: 'Kelime Güncelle', navbarTitle, word: word });
 };
 
 
@@ -90,6 +90,5 @@ exports.postUpdateWord = (req, res, next) => {
         answer: req.body.updateAnswer
     };
 
-   
 };
 

@@ -1,16 +1,15 @@
-const { Word } = require('../model/word.js'); 
-const Category = require('../model/category.js');
+const  Word  = require('../model/word.js'); 
+const Categories = require('../model/category.js');
+const { where } = require('sequelize');
 
-let currentIndex = 0; 
+let currentIndex = 0;  // Başlangıç index değeri
 
 exports.getHome = (req, res, next) => {
     const navbarTitle = 'DEUTSCH';
     const headTitle = 'Learn Deutsch | Startseite';
-    //const categories = Category.getAllCategories();
     res.render('index', { 
         navbarTitle,
         headTitle,
-        //categories,
         title: 'HomePage',
         path: '/', 
         isAdmin: false
@@ -29,61 +28,62 @@ exports.getUberUns = (req, res, next) => {
     });
 };
 
-exports.getUbungen = (req, res, next) => {
-    const navbarTitle = 'Übungen';
-    const headTitle = 'Learn Deutsch | Übungen';
-    //const categories = Category.getAllCategories();
+exports.getUbungen = async (req, res, next) => {
+    try {
+      const navbarTitle = 'Übungen';
+      const headTitle = 'Learn Deutsch | Übungen';
 
-    Word.getAllWords().then(([rows]) => {
-        let currentWord = null;
-
-        if (currentIndex >= rows.length) {
-            currentWord = { message: 'Tebrikler, bitirdiniz!' };
-        } else {
-            currentWord = rows[currentIndex];
-        }
-
-        res.render('ubungen', {
-            navbarTitle,
-            headTitle,
-            currentWord,
-            //categories,
-            title: 'Übungen',
-            path: '/ubungen',
-            isAdmin: false
-        });
-    }).catch((err) => {
-        console.log(err);
-    });
+      
+      const word = await Word.findOne({ where: { id: currentIndex + 1 } });
+  
+      const message = word ? '' : 'Kelime Bulunmamaktadır';
+       const error = req.query.error || '';
+       
+      res.render('ubungen', {
+        navbarTitle,
+        headTitle,
+        word,  
+        message,
+        title: 'Übungen',
+        path: '/ubungen',
+        isAdmin: false
+      });
+    } catch (error) {
+      next(error);
+    }
 };
 
 exports.resetTest = (req, res, next) => {
-    currentIndex = 0;  
+    currentIndex = 0; 
+
     res.redirect('/ubungen');  
 };
 
-exports.postUbungen = (req, res, next) => {
+exports.postUbungen = async (req, res, next) => {
     let userAnswer = req.body.answer ? req.body.answer.toLowerCase().trim() : '';
 
-    Word.getAllWords().then(([rows]) => {
-        let correctAnswer = rows[currentIndex] && rows[currentIndex].answer.toLowerCase();
+    try {
+        const word = await Word.findOne({where: currentIndex+1});
 
-        
-        if (userAnswer === correctAnswer) {
+        if(userAnswer === word.answer.toLowerCase()) {
             currentIndex++;
-        }
+            return res.redirect('/ubungen');
 
-       
-        if (currentIndex >= rows.length) {
-            setTimeout(() => {
-                res.redirect('/ubungen');
-            }, 2000);
         } else {
-            setTimeout(() => {
-                res.redirect('/ubungen');
-            }, 2000);
+            return res.redirect('/ubungen?error=cevap yanlış');
         }
-    }).catch((err) => {
-        console.log(err);
-    });
+    } catch (error) {
+        next(error);
+    }
+    
+   
+    currentIndex++;
+  
+   
+    const totalWords = await Word.count();  
+    if (currentIndex >= totalWords) {
+        currentIndex = 0;  
+    }
+
+    res.redirect('/ubungen');
 };

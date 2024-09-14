@@ -63,22 +63,18 @@ html
             th Cevap
             th Güncelle/Sil
         tbody
-          if word && word.length > 0
-            each Word in word
-              tr 
-                td= Word.id 
-                td= Word.word
-                td= Word.answer
-                td
-                  form(action=`/admin/ubungen/update/${Word.id}` method="GET" style="display: inline;")
-                    input(type="hidden" name="_update" value="UPDATE")
-                    button.btn.btn-primary.mx-2(type="submit") Güncelle 
-                  form(action=`/admin/ubungen/${Word.id}` method="POST" style="display: inline;")
-                    input(type="hidden" name="_method" value="DELETE")
-                    button.btn.btn-danger(type="submit") Sil
-          else
-            tr
-              td.colspan="4" Kelime bulunamadı.
+          each Word in word 
+            tr 
+              td= Word.id 
+              td= Word.word
+              td= Word.answer
+              td
+                form(action=`/admin/ubungen/update/${Word.id}` method="GET" style="display: inline;")
+                  input(type="hidden" name="_update" value="UPDATE")
+                  button.btn.btn-primary.mx-2(type="submit") Güncelle 
+                form(action=`/admin/ubungen/${Word.id}` method="POST" style="display: inline;")
+                  input(type="hidden" name="_method" value="DELETE")
+                  button.btn.btn-danger(type="submit") Sil
 
       form(action="/admin/ubungen" method="POST")
         .input-group.input-group-sm.mb-3
