@@ -33,6 +33,8 @@ app.use((err, req, res, next) => {
     res.status(500).render('500', { pageTitle: 'Etwas ist schief gelaufen!'})
 });
 
+ app.use('/public/img/', express.static(process.cwd() + '/public/img'));
+
 sequelize.sync().then(result => {
     console.log(result);
 }).catch(err => {

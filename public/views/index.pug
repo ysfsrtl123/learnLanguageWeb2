@@ -58,28 +58,28 @@ html(lang="de")
           .col.mb-5.my-2
             #carouselExampleDark.carousel.carousel-dark.slide
               .carousel-indicators
-                button(type="button", data-bs-target="#carouselExampleDark", data-bs-slide-to="0", class="active", aria-current="true", aria-label="Slide 1")
-                button(type="button", data-bs-target="#carouselExampleDark", data-bs-slide-to="1", aria-label="Slide 2")
-                button(type="button", data-bs-target="#carouselExampleDark", data-bs-slide-to="2", aria-label="Slide 3")
+                button(type="button", data-bs-target="#carouselExampleDark", data-bs-slide-to="0", class="active", aria-current="true", aria-label="Slide 1").bg-light
+                button(type="button", data-bs-target="#carouselExampleDark", data-bs-slide-to="1", aria-label="Slide 2").bg-light
+                button(type="button", data-bs-target="#carouselExampleDark", data-bs-slide-to="2", aria-label="Slide 3").bg-light
               
               .carousel-inner.rounded-4.bg-white
                 .carousel-item.active(data-bs-interval="10000")
-                  img(src="./img/German-language.jpg", class="d-block w-100", alt="First Slide")
+                  img(src='https://picsum.photos/900/600'  alt='First' class='d-block w-100')
                   .carousel-caption.d-none.d-md-block
-                    h5 First slide label
-                    p Some representative placeholder content for the first slide.
+                    h5.text-white First slide label
+                    p.text-white Some representative placeholder content for the first slide.
 
                 .carousel-item(data-bs-interval="2000")
-                  img(src='./img/German-language.jpg', class="d-block w-100", alt="Second Slide")
+                  img(src='https://picsum.photos/900/600' class='d-block w-100' alt='Second Slide')
                   .carousel-caption.d-none.d-md-block
-                    h5 Second slide label
-                    p Some representative placeholder content for the second slide.
+                    h5.text-white Second slide label
+                    p.text-white Some representative placeholder content for the second slide.
 
                 .carousel-item
-                  img(src="/img/German-language.jpg", class="d-block w-100", alt="Third Slide")
+                  img(src='https://picsum.photos/900/600' class='d-block w-100' alt='Third Slide')
                   .carousel-caption.d-none.d-md-block
-                    h5 Third slide label
-                    p Some representative placeholder content for the third slide.
+                    h5.text-white Third slide label
+                    p.text.white Some representative placeholder content for the third slide.
 
       include ../views/includes/footer.pug
 
