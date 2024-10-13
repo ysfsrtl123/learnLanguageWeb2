@@ -1,0 +1,102 @@
+doctype html
+html(lang="de")
+  include ../views/includes/head.pug
+  
+  style.
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: red;
+    }
+    main {
+      flex: 1;
+    }
+    footer {
+      background-color: #ffc107;
+      color: white;
+    }
+    a {
+      text-decoration: none;
+    }
+    .hidden {
+      display: none;
+    }
+    .spinner-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.8);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+    }
+    .carousel-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+  body
+    // Yükleme Spinnerı
+    #spinner-container.spinner-container
+      .spinner-border(role="status")
+        span.visually-hidden Loading...
+
+    // Ana İçerik
+    block content
+      include ../views/includes/nav.pug
+      
+      .container-fluid.my-1
+        .row
+          .col-md-6
+            div#carouselExampleIndicators.carousel.slide
+              div.carousel-indicators
+                button(type="button", data-bs-target="#carouselExampleIndicators", data-bs-slide-to="0", class="active", aria-current="true", aria-label="Slide 1")
+                button(type="button", data-bs-target="#carouselExampleIndicators", data-bs-slide-to="1", aria-label="Slide 2")
+                button(type="button", data-bs-target="#carouselExampleIndicators", data-bs-slide-to="2", aria-label="Slide 3")
+
+              div.carousel-inner
+                div.carousel-item.active
+                  img(src="https://picsum.photos/900/600" class="d-block w-100" alt="...") 
+                div.carousel-item
+                  img(src="https://picsum.photos/900/600" class="d-block w-100" alt="...")
+                div.carousel-item
+                  img(src="https://picsum.photos/900/600" class="d-block w-100" alt="...")
+
+              button.carousel-control-prev(type="button", data-bs-target="#carouselExampleIndicators", data-bs-slide="prev")
+                span.carousel-control-prev-icon(aria-hidden="true")
+                span.visually-hidden Previous
+              button.carousel-control-next(type="button", data-bs-target="#carouselExampleIndicators", data-bs-slide="next")
+                span.carousel-control-next-icon(aria-hidden="true")
+                span.visually-hidden Next
+
+          .col-md-6
+            h2.text-center İçerikler
+            table.table.rounded-4.mt-4
+              thead
+                tr
+                  th.border-bottom içerikler
+              tbody
+                if categories && categories.length > 0
+                  each category in categories
+                    tr
+                      td 
+                        a(href=`/categories/${category.id}`)= category.name
+                else
+                  tr
+                    td(colspan="1") Görüntülenecek İçerik Bulunmamaktadır.
+
+      include ../views/includes/footer.pug
+
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('spinner-container').style.display = 'none';
+      });
+
+      function showSection(sectionId) {
+        document.getElementById(sectionId).classList.remove('hidden');
+      }

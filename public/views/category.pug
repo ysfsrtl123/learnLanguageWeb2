@@ -1,0 +1,117 @@
+doctype html
+html(lang="de")
+  include ../views/includes/head.pug
+
+  style.
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: red;
+    }
+    main {
+      flex: 1;
+    }
+    footer {
+      background-color: #ffc107;
+      color: white;
+    }
+    a {
+      text-decoration: none;
+    }
+    .hidden {
+      display: none;
+    }
+    .spinner-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.8);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 9999;
+    }
+    .carousel-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+  body
+    // Yükleme Spinnerı
+    #spinner-container.spinner-container
+      .spinner-border(role="status")
+        span.visually-hidden Loading...
+
+    .container-fluid.bg-dark.p-3
+        nav.navbar.navbar-expand-lg.navbar-dark
+          .container-fluid
+            a.navbar-brand(href="#")
+              b
+                i= navbarTitle
+            button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")
+              span.navbar-toggler-icon
+            .collapse.navbar-collapse#navbarNav
+              ul.navbar-nav.ms-auto
+                li.nav-item
+                  a.nav-link.mx-2(href=(isAdmin ? '/' : '/admin') class=(path === '/admin' ? 'nav-link active' : 'nav-link'))
+                    | Admin
+                li.nav-item
+                  a.nav-link(href=(isAdmin ? '/admin' : '/') class=(path === '/' ? 'nav-link active' : 'nav-link'))
+                    i.bi.bi-house-door-fill
+                    |  Anasayfa
+
+    .container.mt-5
+      h2 Sitenizdeki kategoriler
+      table.table.mt-4
+        thead
+          tr
+            th ID
+            th Kategori Adı
+            th Açıklama
+            th İçerik
+            th işlemler
+        tbody
+          if categories && categories.length > 0
+            each category in categories
+              tr
+                td= category.id
+                td= category.name
+                td= category.description
+                td= category.content
+                td 
+                  form(action=`/admin/category/categoryupdate/${category.id}` method="GET" style="display: inline;")
+                   input(type="hidden" name="_Update" value="UPDATE")
+                   button.btn.btn-primary.mx-2(type="submit") Düzenle 
+                  form(action=`/admin/category/${category.id}` method="POST" style="display: inline;")
+                   input(type="hidden" name="_Delete" value="DELETE")
+                   button.btn.btn-danger(type="submit") Sil
+
+          else
+            tr
+              td(colspan="4") Kategori yok.
+
+      form(action="/admin/category", method="POST")
+        .mb-3
+          input.form-control(type="text" name="name" placeholder="İçerik Başlığını girin" required)
+        .mb-3
+          textarea.form-control(name="content" rows="5" placeholder="İçerik girin" required)
+        .mb-3
+          input.form-control(type="text" name="description" placeholder="Açıklama girin")
+        .mb-3
+        button.btn.btn-primary.mb-2(type="submit") ekle
+
+
+    include ../views/includes/footer.pug
+
+    script.
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('spinner-container').style.display = 'none';
+      });
+
+      function showSection(sectionId) {
+        document.getElementById(sectionId).classList.remove('hidden');
+      }  

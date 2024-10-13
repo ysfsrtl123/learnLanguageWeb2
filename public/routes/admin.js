@@ -10,5 +10,10 @@ router.post('/ubungen', adminController.postaddword);
 router.post("/ubungen/:id", adminController.postDeleteWord);
 router.get('/ubungen/update/:id', adminController.getUpdateWord);
 router.post('/ubungen/update/:id', adminController.postUpdateWord);
+router.get('/category', adminController.getCategory);
+router.post('/category', adminController.postAddCategory);
+router.post('/category/:id',adminController.postDeleteCategory);
+router.get('/category/categoryupdate/:id', adminController.getUpdateCategory);
+router.post('/category/categoryupdate/:id', adminController.postUpdateCategory);
 
 module.exports = router;

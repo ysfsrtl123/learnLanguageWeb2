@@ -1,5 +1,5 @@
 const  Word  = require('../model/word.js'); 
-const Categories = require('../model/category.js');
+const Category = require('../model/category.js');
 const { where } = require('sequelize');
 
 let currentIndex = 0;  
@@ -107,6 +107,22 @@ exports.postUbungen = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.getShowCategory = async (req, res, next) => {
+    try {
+        const categories = await Category.findAll();
+        const navbarTitle = 'İçerikler'
+        res.render('content', { 
+            navbarTitle,
+            categories: categories || [],  
+            isAdmin: false
+        });
+    } catch (err) {
+        console.log(err);
+        next(err);
+    }
+};
+
 
 
 
