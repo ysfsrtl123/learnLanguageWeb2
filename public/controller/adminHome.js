@@ -232,3 +232,14 @@ exports.postUpdateCategory = async (req, res, next) => {
         return res.redirect('/admin/category?error=GüncellemeHatası');
     }
 };
+
+// for offcanvas data 
+exports.getCategories = async (req, res, next) => {
+    try {
+        const categories = await Category.findAll(); // Veritabanından tüm kategorileri al
+        res.json(categories); // JSON formatında döndür
+    } catch (error) {
+        console.error('Kategori yüklenirken hata oluştu:', error);
+        res.status(500).json({ error: 'Veriler yüklenemedi' });
+    }
+};

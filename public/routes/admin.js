@@ -15,5 +15,7 @@ router.post('/category', adminController.postAddCategory);
 router.post('/category/:id',adminController.postDeleteCategory);
 router.get('/category/categoryupdate/:id', adminController.getUpdateCategory);
 router.post('/category/categoryupdate/:id', adminController.postUpdateCategory);
+// for offcanvas
+router.get('/categories', adminController.getCategories);
 
 module.exports = router;

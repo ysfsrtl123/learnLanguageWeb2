@@ -19,12 +19,11 @@
             a.nav-link(href=(isAdmin ? '/admin/about' : '/about') class=(path === '/about' || path === '/admin/about' ? 'nav-link active' : 'nav-link'))
               | Hakkımızda
           li.nav-item
-            a.nav-link(data-bs-toggle="offcanvas", href=(isAdmin ? "#offcanvasCategory" : "/content"),class=(path === '/content' ? 'nav-link active' : 'nav-link') role="button", aria-controls="offcanvasCategory") 
+            a.nav-link(data-bs-toggle="offcanvas", href="#offcanvasCategory", class=(path === '/content' ? 'nav-link active' : 'nav-link') role="button", aria-controls="offcanvasCategory")
               if isAdmin
                 | Kategori Ekleme
               else
-               li.nav-item
-                a.nav-link(href='/content' class=(path === '/content' ? 'nav-link active' : 'nav-link')) İçerikler
+                | İçerikler
           li.nav-item
             a.nav-link(href=(isAdmin ? "/admin/ubungen" : "/ubungen") class=(path === '/ubungen' || path === '/admin/ubungen' ? 'nav-link active' : 'nav-link'))
               i.bi.bi-journal-check
@@ -33,52 +32,48 @@
               else
                 | Alıştırma
 
-
 div.offcanvas.offcanvas-start(tabindex="-1", id="offcanvasCategory", aria-labelledby="offcanvasCategoryLabel")
-  div.offcanvas-header.border-bottom.border-danger
+  div.offcanvas-header
     h5.offcanvas-title(id="offcanvasCategoryLabel") Kategoriler
     button.btn-close(type="button", data-bs-dismiss="offcanvas", aria-label="Close")
   div.offcanvas-body
-    div.alert.alert-danger#alertMessage(role="alert", style="display: none;")
-      h4.text-center Kategori ekleme sayfasına yönlendiriliyorsunuz
-      div.progress(role="progressbar", aria-label="Basic example", aria-valuenow="0", aria-valuemin="0", aria-valuemax="100")
-        div.progress-bar#progressBar.w-75(style="width: 0%;")
-    div
-      h2 Sitenizdeki kategoriler
-      table.table.mt-4
-        thead
-          tr
-            th ID
-            th Kategori Adı
-            th Açıklama
-        tbody
-          if categories && categories.length > 0
-            each category in categories
-              tr
-                td= category.id
-                td= category.name
-                td= category.description
-          else
-            tr
-              td(colspan="4") Kategori bulunamadı
-      h5 Kategori ekleme paneline gitmek için tıklayın
-      form#redirectForm(action="/admin/category", method="GET")
-        button.btn.btn-primary.mt-2(type="submit") Sayfaya Git
+    h2 Kategoriler Listesi
+    table.table
+      thead
+        tr
+          th ID
+          th Kategori Adı
+          th Açıklama
+      tbody
+        tr
+          td(colspan="3") Yükleniyor...
+    label.mb-2(for="button") Kategorileri düzenlemek ve içerikleri görmek için butona tıklayın
+    a.btn.btn-primary(href="/admin/category") Sayfaya Git
 
 script.
   document.addEventListener('DOMContentLoaded', function () {
-    var form = document.getElementById('redirectForm');
-    var alertMessage = document.getElementById('alertMessage');
-    var progressBar = document.getElementById('progressBar');
+    const offcanvasCategory = document.getElementById('offcanvasCategory');
 
-    form.addEventListener('submit', function (event) {
-      event.preventDefault(); // Formun otomatik gönderimini durdur
-      alertMessage.style.display = 'block'; // Mesajı görünür yap
-      progressBar.style.width = '100%'; // Progress bar dolu göster
+    offcanvasCategory.addEventListener('show.bs.offcanvas', function () {
+      fetch('/admin/categories') 
+        .then(response => response.json())
+        .then(data => {
+          const tableBody = document.querySelector('#offcanvasCategory tbody');
+          tableBody.innerHTML = '';
 
-      setTimeout(function () {
-        window.location.href = form.action; // Sayfaya yönlendir
-      }, 1000); // 1 saniye sonra yönlendir
+          if (data.length > 0) {
+            data.forEach(category => {
+              const row = `<tr>
+                            <td>${category.id}</td>
+                            <td>${category.name}</td>
+                            <td>${category.description}</td>
+                          </tr>`;
+              tableBody.innerHTML += row;
+            });
+          } else {
+            tableBody.innerHTML = '<tr><td colspan="3">Kategori bulunamadı</td></tr>';
+          }
+        })
+        .catch(err => console.error('Veriler alınırken hata oluştu:', err));
     });
   });
-
