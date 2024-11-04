@@ -19,10 +19,20 @@
             a.nav-link(href=(isAdmin ? '/admin/about' : '/about') class=(path === '/about' || path === '/admin/about' ? 'nav-link active' : 'nav-link'))
               | Hakkımızda
           li.nav-item
-            a.nav-link(data-bs-toggle="offcanvas", href="#offcanvasCategory", class=(path === '/content' ? 'nav-link active' : 'nav-link') role="button", aria-controls="offcanvasCategory")
-              if isAdmin
+            if isAdmin
+              a.nav-link(
+                data-bs-toggle="offcanvas"
+                href="#offcanvasCategory"
+                class=(path === '/admin/category' || path === '/admin' ? 'nav-link active' : 'nav-link')
+                role="button"
+                aria-controls="offcanvasCategory"
+              )
                 | Kategori Ekleme
-              else
+            else
+              a.nav-link(
+                href="/content"
+                class=(path === '/content' ? 'nav-link active' : 'nav-link')
+              )
                 | İçerikler
           li.nav-item
             a.nav-link(href=(isAdmin ? "/admin/ubungen" : "/ubungen") class=(path === '/ubungen' || path === '/admin/ubungen' ? 'nav-link active' : 'nav-link'))

@@ -16,10 +16,12 @@ exports.getAdminHome = (req, res, next) => {
 
 exports.getAdminAbout = (req, res, next) => {
     const navbarTitle = 'Admin über uns'; 
+    const category = Category.findAll();
     res.render('about', {
         navbarTitle,
         title: 'Admin Login',
         path: '/admin/about', 
+        category,
         isAdmin: true
     });
 };
